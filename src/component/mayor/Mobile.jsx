@@ -3,6 +3,7 @@ import { SideConsum } from "../../contex/GlobalContex";
 import { Links } from "./Links";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import { logo } from "../../assets";
 export const Mobile = () => {
   const [sidebarOpen, setSidebarOpen] = useContext(SideConsum);
 
@@ -59,11 +60,7 @@ export const Mobile = () => {
               {/* Sidebar component, swap this element with another sidebar if you like */}
               <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6 pb-4 ring-1 ring-white/10">
                 <div className="flex h-16 shrink-0 items-center">
-                  <img
-                    className="h-8 w-auto"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                    alt="Your Company"
-                  />
+                  <img className="h-8 w-auto" src={logo} alt="Your Company" />
                 </div>
                 <Links />
               </div>

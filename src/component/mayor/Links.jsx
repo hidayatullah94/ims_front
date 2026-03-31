@@ -20,6 +20,7 @@ export const Links = () => {
       href: "/ims",
       icon: ChartPieIcon,
       id: 1,
+      initial: "DS",
       Role: ["ADMIN", "USER"],
     },
     {
@@ -27,6 +28,7 @@ export const Links = () => {
       href: "/ims/transaksi",
       icon: ClipboardDocumentIcon,
       id: 2,
+      initial: "TB",
       Role: ["ADMIN", "USER"],
     },
     {
@@ -34,6 +36,7 @@ export const Links = () => {
       href: "/ims/transaksi/jasa",
       icon: BriefcaseIcon,
       id: 6,
+      initial: "TJ",
       Role: ["ADMIN", "USER"],
     },
     {
@@ -41,6 +44,7 @@ export const Links = () => {
       href: "/ims/barang",
       icon: CubeIcon,
       id: 3,
+      initial: "BR",
       Role: ["ADMIN", "USER"],
     },
     {
@@ -48,6 +52,7 @@ export const Links = () => {
       href: "/ims/master",
       icon: RectangleStackIcon,
       id: 4,
+      initial: "MS",
       Role: ["ADMIN"],
     },
     {
@@ -55,6 +60,7 @@ export const Links = () => {
       href: "/ims/report",
       icon: PresentationChartLineIcon,
       id: 5,
+      initial: "RP",
       Role: ["ADMIN", "USER"],
     },
   ];
@@ -94,6 +100,9 @@ export const Links = () => {
                     }
                   />
                   <span className={togle ? "hidden" : ""}>{item.name}</span>
+                  <span className={togle ? "absolute " : "hidden"}>
+                    {item.initial}
+                  </span>
                 </NavLink>
               </li>
             ))}
