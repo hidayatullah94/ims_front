@@ -3,8 +3,8 @@ import { URLimg } from "../../lib";
 import { useReactToPrint } from "react-to-print";
 import { PrinterIcon } from "@heroicons/react/24/outline";
 import { Kop, signature } from "../../assets";
-
-export const CardMemo = ({
+import { format } from "../../action";
+export const CardMemoJasa = ({
   nomor,
   cabang,
   tanggal,
@@ -22,7 +22,6 @@ export const CardMemo = ({
   const reactToPrintFn = useReactToPrint({
     contentRef: contentRef,
   });
-
   return (
     <div className="relative ">
       <button
@@ -80,7 +79,7 @@ export const CardMemo = ({
                           scope="col"
                           className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 border border-gray-400"
                         >
-                          Deskripsi
+                          Pekerjaan
                         </th>
                         <th
                           scope="col"
@@ -94,6 +93,18 @@ export const CardMemo = ({
                         >
                           Satuan
                         </th>
+                        <th
+                          scope="col"
+                          className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 border border-gray-400"
+                        >
+                          Harga / Satuan
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 border border-gray-400"
+                        >
+                          Total Harga
+                        </th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200 bg-white">
@@ -103,13 +114,19 @@ export const CardMemo = ({
                             {idx + 1}
                           </td>
                           <td className="px-3 py-4 text-sm whitespace-nowrap text-gray-700 border border-gray-400">
-                            {e.barang["nama"]}
+                            {e.pekerjaan}
                           </td>
                           <td className="px-3 py-4 text-sm whitespace-nowrap text-gray-700 border border-gray-400">
                             {e.qty}
                           </td>
                           <td className="px-3 py-4 text-sm whitespace-nowrap text-gray-700 border border-gray-400">
-                            {e.barang["satuan"]}
+                            {e.satuan}
+                          </td>
+                          <td className="px-3 py-4 text-sm whitespace-nowrap text-gray-700 border border-gray-400">
+                            {format(e.harga)}
+                          </td>
+                          <td className="px-3 py-4 text-sm whitespace-nowrap text-gray-700 border border-gray-400">
+                            {format(e.harga * e.qty)}
                           </td>
                         </tr>
                       ))}
@@ -120,7 +137,7 @@ export const CardMemo = ({
             </div>
           ) : (
             <p className="text-center font-bold">
-              Detail Barang tidak tersedia !!
+              Detail Pekerjaan tidak tersedia !!
             </p>
           )}
           <p className="mt-5">

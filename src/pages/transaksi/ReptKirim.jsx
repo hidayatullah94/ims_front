@@ -16,7 +16,6 @@ export const ReptKirim = () => {
   if (isLoading) return <Loadings />;
   if (error) return <Eroors />;
 
-  console.log(data);
   return (
     <div>
       {" "}

@@ -10,8 +10,6 @@ export const ReptMasuk = () => {
   if (isLoading) return <Loadings />;
   if (error) return <Eroors />;
 
-  console.log(data);
-
   return (
     <div>
       {" "}

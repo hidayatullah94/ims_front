@@ -15,22 +15,27 @@ export const CardPermintaan = ({ data }) => {
 
   return (
     <div className="relative p-5 border border-slate-300 rounded shadow overflow-hidden">
-      {Roles === "ADMIN" && (
-        <button
-          className={
-            file === null
-              ? " absolute right-5 border p-1 shadow rounded border-slate-300 cursor-pointer z-50"
-              : "hidden"
-          }
-          onClick={() => setShow(!show)}
-        >
-          {show ? (
+      <button
+        className={
+          data.status === "PENDING" || file !== null
+            ? "hidden"
+            : "absolute right-5 border p-1 shadow rounded border-slate-300 cursor-pointer z-50"
+        }
+        onClick={() => setShow(!show)}
+      >
+        {show ? (
+          <span className="flex gap-1">
             <EyeIcon className="w-5 text-emerald-600" />
-          ) : (
+            Memo
+          </span>
+        ) : (
+          <span className="flex gap-1">
             <EyeSlashIcon className="w-5 text-rose-600" />
-          )}
-        </button>
-      )}
+            Memo
+          </span>
+        )}
+      </button>
+
       {show ? (
         <>
           <CardMemo
@@ -268,7 +273,7 @@ export const CardPermintaan = ({ data }) => {
                     : data.status === "APPROVED"
                       ? "text-emerald-500"
                       : "text-rose-700",
-                  "absolute top-14 right-0 z-10 bg-white rotate-45 font-bold  border-dashed border-4 w-36 text-center h-8",
+                  "absolute top-20 right-10 z-10 bg-white rotate-45 font-bold  border-dashed border-4 w-36 text-center h-8",
                 )}
               >
                 {data.status}

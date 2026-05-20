@@ -174,7 +174,7 @@ export const FormPemasukan = ({
                       htmlFor={"qty"}
                       className="absolute -top-3 left-2 inline-block bg-white px-1 text-sm  text-gray-700 capitalize"
                     >
-                      Harga
+                      Harga / Qty
                     </label>
                     <Controller
                       name={`detail.${idx}.harga`}

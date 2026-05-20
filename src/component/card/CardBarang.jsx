@@ -27,15 +27,7 @@ export const CardBarang = ({
         <div className="mt-1 flex flex-col relative">
           <div className="flex justify-between">
             <p className="text-sm text-cyan-600 capitalize">{stok}</p>
-            <p
-              className={
-                Roles === "ADMIN"
-                  ? "text-sm font-medium text-rose-700"
-                  : "hidden"
-              }
-            >
-              {harga}
-            </p>
+            <p className={"text-sm font-medium text-rose-700"}>{harga}</p>
           </div>
           <div>
             <h3 className="text-sm text-gray-700 font-bold">{barcode}</h3>

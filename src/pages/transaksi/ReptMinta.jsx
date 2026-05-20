@@ -68,7 +68,7 @@ export const ReptMinta = () => {
                     th3={"Judul"}
                     th4={"Cabang"}
                     th5={"status"}
-                    th6={"Aksi"}
+                    th6={"Keterangan"}
                   />
                   {data &&
                     data.map((e) => {
@@ -94,7 +94,7 @@ export const ReptMinta = () => {
                           }
                           tb6={
                             <div div className="flex gap-5">
-                              <p>15115</p>
+                              {e.keterangan}
                             </div>
                           }
                         />

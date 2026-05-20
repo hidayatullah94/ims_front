@@ -2,6 +2,7 @@ import { CardBarang } from "./CardBarang";
 import { CardDetailBarang } from "./CardDetailBarang";
 import { CardJasa } from "./CardJasa";
 import { CardMemo } from "./CardMemo";
+import { CardMemoJasa } from "./CardMemoJasa";
 import { CardPemasukan } from "./CardPemasukan";
 import { CardPengiriman } from "./CardPengiriman";
 import { CardPermintaan } from "./CardPermintaan";
@@ -14,4 +15,5 @@ export {
   CardMemo,
   CardJasa,
   CardDetailBarang,
+  CardMemoJasa,
 };

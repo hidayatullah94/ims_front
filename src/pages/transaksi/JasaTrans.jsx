@@ -16,6 +16,7 @@ import { FormJasa } from "../../component/form";
 import { CheckBadgeIcon, EyeIcon } from "@heroicons/react/20/solid";
 import moment from "moment";
 import { Roles } from "../../lib";
+import { romawi } from "../../action";
 
 export const JasaTrans = () => {
   const [create, setCreate] = useState(false);
@@ -155,6 +156,12 @@ export const JasaTrans = () => {
                   kode={JASA && JASA.kode}
                   tanggal={moment(JASA && JASA.tanggal).format("DD/MM/Y")}
                   keterangan={JASA && JASA.keterangan}
+                  kodeMemo={JASA && JASA.pekerjaan.nomor}
+                  nama={JASA && JASA.user.nama}
+                  ttd={JASA && JASA.user.ttd}
+                  ruas={JASA && JASA.cabang["ruas"]}
+                  pekerjaan={JASA && JASA.pekerjaan.keterangan}
+                  nomor={`No : ${JASA && JASA.id}/${JASA && JASA.pekerjaan["nomor"]}/${romawi[moment(JASA && JASA.tanggal).format("M")]}/${moment(JASA && JASA.tanggal).format("Y")}`}
                 />
               </div>
             </div>

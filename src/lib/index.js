@@ -1,7 +1,8 @@
 import axios from "axios";
-//http://localhost:3500
+
 export const URLS = axios.create({
   baseURL: "https://ims.citrapersada.co.id",
+  // baseURL: "http://localhost:3500",
 });
 export const TokenS = sessionStorage.getItem("token");
 export const Roles = sessionStorage.getItem("roles");

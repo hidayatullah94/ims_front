@@ -211,9 +211,9 @@ export const ListBarang = () => {
 `
                           : `${URLimg}${e.foto}`
                       }
-                      harga={
-                        e.harga === null ? 0 : format(e.pemasukan[0].harga)
-                      }
+                      harga={format(
+                        e.pemasukan?.[e.pemasukan.length - 1]?.harga ?? 0,
+                      )}
                       klik={() =>
                         setDetail({
                           edit: true,
