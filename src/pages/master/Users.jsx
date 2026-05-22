@@ -90,6 +90,7 @@ export const Users = () => {
     formData.append("divisiID", data.divisiID);
     formData.append("cabangID", data.cabangID);
     formData.append("password", data.password);
+    formData.append("status", data.status);
     confirmAlert({
       title: "Update Data  !",
       message: "Apkah kamu yakin ingin mengupdate data ?",

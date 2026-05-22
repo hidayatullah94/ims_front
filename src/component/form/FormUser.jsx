@@ -15,7 +15,7 @@ export const FormUser = ({
   df4,
   df5,
 }) => {
-  const [divisi, setDivisi] = useState(df4);
+  const [divisi, setDivisi] = useState(df3);
   const {
     register,
     handleSubmit,
