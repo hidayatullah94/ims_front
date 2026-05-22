@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   addKategori,
   editKategori,
@@ -11,8 +11,10 @@ import { FormKategori } from "../../component/form";
 import { confirmAlert } from "react-confirm-alert";
 import { classNames } from "../../action";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
+import { SearchConsum } from "../../contex/GlobalContex";
 
 export const KategoriBarang = () => {
+  const [search] = useContext(SearchConsum);
   const [create, setCreate] = useState(false);
   const [detail, setDetail] = useState({
     open: false,
@@ -108,37 +110,45 @@ export const KategoriBarang = () => {
         {data && data.length ? (
           <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
             {data &&
-              data.map((item) => (
-                <div
-                  key={item.id}
-                  className="overflow-hidden rounded-lg bg-white px-4 py-5 shadow-sm sm:p-6 border border-slate-200 relative"
-                >
-                  <span
-                    className={classNames(
-                      item.status
-                        ? "bg-emerald-100 text-emerald-700"
-                        : "bg-rose-100 text-rose-700",
-                      "mt-1 text-sm tracking-tight  rounded  px-4",
-                    )}
+              data
+                .filter((item) => {
+                  if (search !== " ") {
+                    return item.nama.toLowerCase().includes(search);
+                  } else if (search === " ") {
+                    return item;
+                  }
+                })
+                .map((item) => (
+                  <div
+                    key={item.id}
+                    className="overflow-hidden rounded-lg bg-white px-4 py-5 shadow-sm sm:p-6 border border-slate-200 relative"
                   >
-                    {item.status ? "Aktif" : "Tidak"}
-                  </span>
-                  <dt className="truncate text-sm font-medium text-gray-500">
-                    {item.nama}
-                  </dt>
-                  <button
-                    className="absolute right-2 top-2 text-rose-700 cursor-pointer"
-                    onClick={() =>
-                      setDetail({
-                        open: true,
-                        id: item.id,
-                      })
-                    }
-                  >
-                    <PencilSquareIcon className="w-5" />
-                  </button>
-                </div>
-              ))}
+                    <span
+                      className={classNames(
+                        item.status
+                          ? "bg-emerald-100 text-emerald-700"
+                          : "bg-rose-100 text-rose-700",
+                        "mt-1 text-sm tracking-tight  rounded  px-4",
+                      )}
+                    >
+                      {item.status ? "Aktif" : "Tidak"}
+                    </span>
+                    <dt className="truncate text-sm font-medium text-gray-500">
+                      {item.nama}
+                    </dt>
+                    <button
+                      className="absolute right-2 top-2 text-rose-700 cursor-pointer"
+                      onClick={() =>
+                        setDetail({
+                          open: true,
+                          id: item.id,
+                        })
+                      }
+                    >
+                      <PencilSquareIcon className="w-5" />
+                    </button>
+                  </div>
+                ))}
           </dl>
         ) : (
           <Founds />

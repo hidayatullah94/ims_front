@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   addPekerjaan,
   editPekerjaan,
@@ -14,9 +14,11 @@ import { FormPekerjaan } from "../../component/form";
 import moment from "moment";
 import { Roles } from "../../lib";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
+import { SearchConsum } from "../../contex/GlobalContex";
 
 export const Pekerjaan = () => {
   const [create, setCreate] = useState(false);
+  const [search] = useContext(SearchConsum);
   const [detail, setDetail] = useState({
     open: false,
     id: null,
@@ -213,43 +215,53 @@ export const Pekerjaan = () => {
                       th6={"lokasi"}
                     />
                     {data &&
-                      data.map((e) => {
-                        return (
-                          <Tbodys
-                            key={e.id}
-                            tb1={e.kode}
-                            tb2={e.nomor}
-                            tb3={e.keterangan}
-                            tb4={e.cabang["nama"]}
-                            tb5={
-                              e.status ? (
-                                <span className="text-emerald-600 bg-emerald-100 px-3 font-semibold py-1 rounded">
-                                  Aktif
-                                </span>
-                              ) : (
-                                <span className="text-rose-600 bg-rose-100 px-3 font-semibold py-1 rounded">
-                                  Tidak
-                                </span>
-                              )
-                            }
-                            tb6={
-                              <>
-                                <button
-                                  className="text-rose-700"
-                                  onClick={() =>
-                                    setDetail({
-                                      open: true,
-                                      id: e.id,
-                                    })
-                                  }
-                                >
-                                  <PencilSquareIcon className="w-5" />
-                                </button>
-                              </>
-                            }
-                          />
-                        );
-                      })}
+                      data
+                        .filter((item) => {
+                          if (search !== " ") {
+                            return item.keterangan
+                              .toLowerCase()
+                              .includes(search);
+                          } else if (search === " ") {
+                            return item;
+                          }
+                        })
+                        .map((e) => {
+                          return (
+                            <Tbodys
+                              key={e.id}
+                              tb1={e.kode}
+                              tb2={e.nomor}
+                              tb3={e.keterangan}
+                              tb4={e.cabang["nama"]}
+                              tb5={
+                                e.status ? (
+                                  <span className="text-emerald-600 bg-emerald-100 px-3 font-semibold py-1 rounded">
+                                    Aktif
+                                  </span>
+                                ) : (
+                                  <span className="text-rose-600 bg-rose-100 px-3 font-semibold py-1 rounded">
+                                    Tidak
+                                  </span>
+                                )
+                              }
+                              tb6={
+                                <>
+                                  <button
+                                    className="text-rose-700"
+                                    onClick={() =>
+                                      setDetail({
+                                        open: true,
+                                        id: e.id,
+                                      })
+                                    }
+                                  >
+                                    <PencilSquareIcon className="w-5" />
+                                  </button>
+                                </>
+                              }
+                            />
+                          );
+                        })}
                   </table>
                 </div>
               </div>

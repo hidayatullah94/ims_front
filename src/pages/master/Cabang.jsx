@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Buttons, Eroors, Founds, Loadings } from "../../component/mayor";
 import { FormCabang } from "../../component/form";
 import {
@@ -13,9 +13,11 @@ import {
 } from "../../api/masters";
 import toast from "react-hot-toast";
 import { confirmAlert } from "react-confirm-alert";
+import { SearchConsum } from "../../contex/GlobalContex";
 
 export const Cabang = () => {
   const [create, setCreate] = useState(false);
+  const [search] = useContext(SearchConsum);
   const [detail, setDetail] = useState({
     open: false,
     id: null,
@@ -144,48 +146,56 @@ export const Cabang = () => {
             className="divide-y divide-gray-300 border-y border-slate-300 mt-7"
           >
             {data &&
-              data.map((e) => (
-                <li key={e.id} className="flex justify-between gap-x-6 py-5">
-                  <div className="flex min-w-0 gap-x-4">
-                    <BuildingOffice2Icon className="w-8 h-8 flex-none rounded-full bg-slate-300 p-1" />
-                    <div className="min-w-0 flex-auto">
-                      <p className="text-sm/6 font-semibold text-gray-900">
-                        {e.nama} || {e.ruas}
-                      </p>
-                      <p className="mt-1 truncate text-xs/5 text-gray-500">
-                        {e.alamat}
-                      </p>
+              data
+                .filter((item) => {
+                  if (search !== " ") {
+                    return item.nama.toLowerCase().includes(search);
+                  } else if (search === " ") {
+                    return item;
+                  }
+                })
+                .map((e) => (
+                  <li key={e.id} className="flex justify-between gap-x-6 py-5">
+                    <div className="flex min-w-0 gap-x-4">
+                      <BuildingOffice2Icon className="w-8 h-8 flex-none rounded-full bg-slate-300 p-1" />
+                      <div className="min-w-0 flex-auto">
+                        <p className="text-sm/6 font-semibold text-gray-900">
+                          {e.nama} || {e.ruas}
+                        </p>
+                        <p className="mt-1 truncate text-xs/5 text-gray-500">
+                          {e.alamat}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                  <div className=" shrink-0 sm:flex sm:flex-col sm:items-end relative">
-                    <p className="text-xs/6 text-gray-700 font-semibold">
-                      {e.divisi["nama"]}
-                    </p>
-                    <div className="absolute -top-4">
-                      {e.status ? (
-                        <div className="flex-none rounded-full bg-emerald-500/20 p-1">
-                          <div className="size-1.5 rounded-full bg-emerald-500" />
-                        </div>
-                      ) : (
-                        <div className="flex-none rounded-full bg-rose-500/20 p-1">
-                          <div className="size-1.5 rounded-full bg-rose-500" />
-                        </div>
-                      )}
+                    <div className=" shrink-0 sm:flex sm:flex-col sm:items-end relative">
+                      <p className="text-xs/6 text-gray-700 font-semibold">
+                        {e.divisi["nama"]}
+                      </p>
+                      <div className="absolute -top-4">
+                        {e.status ? (
+                          <div className="flex-none rounded-full bg-emerald-500/20 p-1">
+                            <div className="size-1.5 rounded-full bg-emerald-500" />
+                          </div>
+                        ) : (
+                          <div className="flex-none rounded-full bg-rose-500/20 p-1">
+                            <div className="size-1.5 rounded-full bg-rose-500" />
+                          </div>
+                        )}
+                      </div>
+                      <button
+                        className="absolute bottom-0 text-rose-700 cursor-pointer"
+                        onClick={() =>
+                          setDetail({
+                            open: true,
+                            id: e.id,
+                          })
+                        }
+                      >
+                        <PencilSquareIcon className="w-5" />
+                      </button>
                     </div>
-                    <button
-                      className="absolute bottom-0 text-rose-700 cursor-pointer"
-                      onClick={() =>
-                        setDetail({
-                          open: true,
-                          id: e.id,
-                        })
-                      }
-                    >
-                      <PencilSquareIcon className="w-5" />
-                    </button>
-                  </div>
-                </li>
-              ))}
+                  </li>
+                ))}
           </ul>
         ) : (
           <Founds />
