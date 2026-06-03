@@ -7,6 +7,7 @@ export const URLS = axios.create({
 export const TokenS = sessionStorage.getItem("token");
 export const Roles = sessionStorage.getItem("roles");
 export const URLimg = "https://ims.citrapersada.co.id";
+
 export const HeaderJSON = {
   headers: {
     "Content-Type": "application/json",

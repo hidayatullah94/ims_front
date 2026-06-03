@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { FormBarang } from "../../component/form";
+import { FormBarang, FormPakai } from "../../component/form";
 import {
   Backs,
   Buttons,
@@ -19,6 +19,7 @@ import { confirmAlert } from "react-confirm-alert";
 import { Roles, URLimg } from "../../lib";
 import { format } from "../../action";
 import { SearchConsum } from "../../contex/GlobalContex";
+import { addPemakaian } from "../../api/pemasukan";
 
 export const ListBarang = () => {
   const [create, setCreate] = useState(false);
@@ -27,6 +28,7 @@ export const ListBarang = () => {
     open: false,
     id: null,
     edit: false,
+    pakai: false,
   });
   const [queri, setQueri] = useState("All");
   const { data, isLoading, error, refetch } = useBarang(queri);
@@ -69,6 +71,27 @@ export const ListBarang = () => {
     },
     onError: (err) => {
       if (err.response.status === 500) {
+        toast.error("Sedang ada gangguan guys !");
+      }
+    },
+  });
+  const { mutate: mutatePakai, isPending: pendingPakai } = addPemakaian({
+    onSuccess: () => {
+      toast.success("Barang  berhasil dipakai!");
+      setTimeout(() => {
+        setDetail({
+          pakai: false,
+          id: null,
+        });
+        refetch();
+      }, 500);
+    },
+    onError: (err) => {
+      if (err.response.status === 404) {
+        toast.error("Stok tidak tersedia !");
+      } else if (err.response.status === 400) {
+        toast.error("Stok tidak mencukupi !");
+      } else {
         toast.error("Sedang ada gangguan guys !");
       }
     },
@@ -122,6 +145,33 @@ export const ListBarang = () => {
     });
   };
 
+  const SavePakai = (data) => {
+    if (detail.id === undefined)
+      return toast.error("Stok tidak tersedia atau kurang !");
+    let formData = new FormData();
+    formData.append("qty", data.qty);
+    formData.append("keterangan", data.keterangan);
+    formData.append("bukti", data.bukti[0]);
+    confirmAlert({
+      title: "Konfirmasi Pemakaian",
+      message: "Apakah kamu yakin ingin mengirim data pemakaian ?",
+      buttons: [
+        {
+          label: "Yee",
+          onClick: () => {
+            mutatePakai({ id: detail.id, data: formData });
+
+            setTimeout(() => {
+              setDetail({ pakai: false, id: null });
+            }, 500);
+          },
+        },
+        {
+          label: "Tidak",
+        },
+      ],
+    });
+  };
   if (isLoading || loadBar) return <Loadings />;
   if (error || errBar) return <Eroors />;
   return (
@@ -198,6 +248,12 @@ export const ListBarang = () => {
               title={"Update Barang"}
             />
           ) : null}
+          {detail.pakai ? (
+            <FormPakai
+              close={() => setDetail({ pakai: false, id: null })}
+              Submit={SavePakai}
+            />
+          ) : null}
 
           {data && data.length ? (
             <div className="sm:mt-10 mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
@@ -241,6 +297,12 @@ export const ListBarang = () => {
                             id: e.id,
                           })
                         }
+                        pakai={() => {
+                          setDetail({
+                            pakai: true,
+                            id: e.stok[0]?.id,
+                          });
+                        }}
                       />
                     );
                   })}

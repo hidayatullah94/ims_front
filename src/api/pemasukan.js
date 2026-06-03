@@ -1,5 +1,5 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { HeaderJSON, URLS } from "../lib";
+import { HeaderFORM, HeaderJSON, URLS } from "../lib";
 
 export const addPemasukan = ({ onSuccess, onError }) => {
   return useMutation({
@@ -50,4 +50,19 @@ export const usePemasukan = (bulan) => {
     error,
     refetch,
   };
+};
+//! add pemakaian
+export const addPemakaian = ({ onSuccess, onError }) => {
+  return useMutation({
+    mutationFn: async ({ id, data }) => {
+      const response = await URLS.put(
+        `/trans-pemakaian/${id}`,
+        data,
+        HeaderFORM,
+      );
+      return response;
+    },
+    onSuccess,
+    onError,
+  });
 };

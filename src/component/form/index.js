@@ -2,6 +2,7 @@ import { FormBarang } from "./FormBarang";
 import { FormCabang } from "./FormCabang";
 import { FormJasa } from "./FormJasa";
 import { FormKategori } from "./FormKategori";
+import { FormPakai } from "./FormPakai";
 import { FormPekerjaan } from "./FormPekerjaan";
 import { FormPemasukan } from "./FormPemasukan";
 import { FormPengiriman } from "./FormPengiriman";
@@ -20,4 +21,5 @@ export {
   FormPemasukan,
   FormPekerjaan,
   FormJasa,
+  FormPakai,
 };

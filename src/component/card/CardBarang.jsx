@@ -1,4 +1,8 @@
-import { EyeIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
+import {
+  EyeIcon,
+  PencilSquareIcon,
+  ShoppingCartIcon,
+} from "@heroicons/react/24/outline";
 import React from "react";
 import { classNames } from "../../action";
 import { Roles } from "../../lib";
@@ -12,16 +16,17 @@ export const CardBarang = ({
   status,
   harga,
   lihat,
+  pakai,
 }) => {
   return (
     <div>
-      <div className="group relative">
+      <div className="group relative cursor-pointer">
         <img
           alt={"foto"}
           src={img}
           className={classNames(
-            status ? "bg-slate-200" : "bg-rose-200",
-            "aspect-square w-full rounded-md  object-cover group-hover:opacity-75 lg:aspect-auto lg:h-64 border p-2 border-slate-300",
+            status ? "bg-emerald-100" : "bg-slate-300 opacity-50",
+            "aspect-square w-full rounded-md  object-cover group-hover:opacity-85 lg:aspect-auto lg:h-64 border p-2 border-slate-300",
           )}
         />
         <div className="mt-1 flex flex-col relative">
@@ -48,15 +53,20 @@ export const CardBarang = ({
           </button>
           <button
             className={
-              Roles === "ADMIN"
-                ? "absolute right-0 bottom-0 cursor-pointer text-emerald-600"
-                : "hidden"
+              "absolute right-0 bottom-0 cursor-pointer text-emerald-600"
             }
             onClick={lihat}
           >
             <EyeIcon className="w-5" />
           </button>
         </div>
+        <button
+          className="w-full mt-2 py-1 text-sm font-medium text-white bg-cyan-600 rounded-md hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 cursor-pointer flex items-center justify-center gap-2 disabled:bg-gray-300 disabled:cursor-not-allowed disabled:text-gray-500"
+          onClick={pakai}
+          disabled={!status || stok === 0}
+        >
+          Pakai <ShoppingCartIcon className="w-5 inline" />
+        </button>
       </div>
     </div>
   );
