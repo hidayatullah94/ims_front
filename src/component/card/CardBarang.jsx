@@ -36,7 +36,7 @@ export const CardBarang = ({
           </div>
           <div>
             <h3 className="text-sm text-gray-700 font-bold">{barcode}</h3>
-            <p className="mt-1 text-sm text-gray-500 truncate  w-full">
+            <p className="mt-1 text-sm text-gray-500   w-full max-w-56 truncate ">
               {nama}
             </p>
           </div>

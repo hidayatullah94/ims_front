@@ -1,6 +1,6 @@
 import React from "react";
-import { useForm } from "react-hook-form";
-import { XMarkIcon } from "@heroicons/react/24/outline";
+import { useFieldArray, useForm } from "react-hook-form";
+import { MinusCircleIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Requireds } from "../mayor";
 import { useKategori } from "../../api/masters";
 export const FormBarang = ({
@@ -14,11 +14,13 @@ export const FormBarang = ({
   df3,
   df4,
   df5,
+  spek,
 }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    control,
   } = useForm({
     defaultValues: {
       nama: df1,
@@ -26,9 +28,15 @@ export const FormBarang = ({
       satuan: df3,
       kategoriID: df4,
       status: df5,
+      spesifikasi: spek || [],
     },
   });
   const { data } = useKategori(true);
+  const { fields, remove, append } = useFieldArray({
+    control,
+    name: "spesifikasi",
+  });
+
   return (
     <div>
       {" "}
@@ -36,7 +44,7 @@ export const FormBarang = ({
         <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none w-full">
           <div className="relative w-auto my-6 mx-auto max-w-5xl">
             {/*content*/}
-            <div className="border-0 rounded-lg shadow-lg relative flex flex-col min-w-xl max-w-5xl bg-white outline-none focus:outline-none">
+            <div className="border-0 rounded-lg shadow-lg relative flex flex-col min-w-xl max-w-5xl bg-white outline-none focus:outline-none overflow-y-scroll max-h-[90vh]">
               {/*header*/}
               <div className="flex items-start justify-between p-5 border-b border-solid border-slate-300 rounded-t">
                 <h3 className="text-1xl font-semibold text-center capitalize">
@@ -61,7 +69,6 @@ export const FormBarang = ({
                     placeholder="cctv dahua"
                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-1 focus:-outline-offset-1 focus:outline-cyan-600 sm:text-sm/6 placeholder:text-xs"
                     {...register("nama", { required: true })}
-                    defaultValue={df1}
                   />
                   {errors.nama && <Requireds />}
                 </div>
@@ -78,7 +85,6 @@ export const FormBarang = ({
                     placeholder="1814515644456"
                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-1 focus:-outline-offset-1 focus:outline-cyan-600 sm:text-sm/6 placeholder:text-xs"
                     {...register("barcode", { required: true })}
-                    defaultValue={df2}
                   />
                   {errors.barcode && <Requireds />}
                 </div>
@@ -95,7 +101,6 @@ export const FormBarang = ({
                     placeholder="unit"
                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-1 focus:-outline-offset-1 focus:outline-cyan-600 sm:text-sm/6 placeholder:text-xs"
                     {...register("satuan", { required: true })}
-                    defaultValue={df3}
                   />
                   {errors.satuan && <Requireds />}
                 </div>
@@ -108,14 +113,17 @@ export const FormBarang = ({
                   </label>
                   <select
                     id="location"
-                    defaultValue={df4}
                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-1 focus:-outline-offset-1 focus:outline-cyan-600 sm:text-sm/6 placeholder:text-xs"
                     {...register("kategoriID", { required: true })}
                   >
                     <option value={""}>Silahkan Pilih Kategori</option>;
                     {data &&
                       data.map((e) => {
-                        return <option value={e.id}>{e.nama}</option>;
+                        return (
+                          <option value={e.id} key={e.id}>
+                            {e.nama}
+                          </option>
+                        );
                       })}
                   </select>
                   {errors.kategoriID && <Requireds />}
@@ -146,7 +154,6 @@ export const FormBarang = ({
                     </label>
                     <select
                       id="location"
-                      defaultValue={df5}
                       className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-1 focus:-outline-offset-1 focus:outline-cyan-600 sm:text-sm/6 placeholder:text-xs"
                       {...register("status")}
                     >
@@ -155,6 +162,75 @@ export const FormBarang = ({
                     </select>
                   </div>
                 )}
+                <div className="col-span-full">
+                  <button
+                    type="button"
+                    className="rounded bg-slate-600 text-center py-1.5 text-xs font-semibold text-slate-50 shadow-sm hover:bg-slate-700 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-slate-600 disabled:bg-slate-100 disabled:border-sky-500 disabled:border w-full cursor-pointer"
+                    onClick={() =>
+                      append({
+                        attribute: "",
+                        value: "",
+                      })
+                    }
+                  >
+                    Tambah Spesifikasi
+                  </button>
+                </div>
+                <div className="col-span-full grid grid-col-1 sm:grid-cols-2 gap-5 relative ">
+                  {fields.map((e, idx) => {
+                    return (
+                      <div
+                        className="col-span-full grid grid-col-1 sm:grid-cols-2 gap-5 relative "
+                        key={e.id}
+                      >
+                        <div className="col-span-1 relative ">
+                          <label
+                            htmlFor={"key"}
+                            className="absolute -top-3 left-2 inline-block bg-white px-1 text-sm  text-gray-700 capitalize"
+                          >
+                            Nama Spesifikasi
+                          </label>
+                          <input
+                            id="key"
+                            type="text"
+                            autoComplete={"key"}
+                            className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-1 focus:-outline-offset-1 focus:outline-cyan-600 sm:text-sm/6 placeholder:text-xs"
+                            {...register(`spesifikasi.${idx}.attribute`)}
+                          />
+                        </div>
+
+                        <div className="col-span-1 relative">
+                          <label
+                            htmlFor={"value"}
+                            className="absolute -top-3 left-2 inline-block bg-white px-1 text-sm  text-gray-700 capitalize"
+                          >
+                            Nilai Spesifikiasi
+                          </label>
+                          <input
+                            id="value"
+                            type="text"
+                            autoComplete={"value"}
+                            className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-1 focus:-outline-offset-1 focus:outline-cyan-600 sm:text-sm/6 placeholder:text-xs"
+                            {...register(`spesifikasi.${idx}.value`)}
+                          />
+                        </div>
+                        <div
+                          className={
+                            "absolute sm:-right-4 -top-5 right-0 flex gap-5 "
+                          }
+                        >
+                          <button
+                            onClick={() => remove(idx)}
+                            className=" text-rose-500 cursor-pointer"
+                            type="button"
+                          >
+                            <MinusCircleIcon className="w-6" />
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
               {/*footer*/}
 

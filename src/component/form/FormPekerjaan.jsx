@@ -1,9 +1,9 @@
 import React from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { Requireds } from "../mayor";
 import { useCabang } from "../../api/masters";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-
+import DatePicker from "react-datepicker";
 export const FormPekerjaan = ({
   Submit,
   dsb,
@@ -12,6 +12,8 @@ export const FormPekerjaan = ({
   df3,
   df4,
   df5,
+  df6,
+  df7,
   isUpdate,
   title,
   close,
@@ -20,7 +22,17 @@ export const FormPekerjaan = ({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+    control,
+  } = useForm({
+    defaultValues: {
+      kode: df1 || "",
+      nomorKontrak: df2 || "",
+      nomor: df3 || "",
+      tanggalKontrak: df4 ? new Date(df4) : new Date(),
+      cabangID: df5 || "",
+      keterangan: df6 || "",
+    },
+  });
   const { data } = useCabang();
 
   return (
@@ -55,7 +67,6 @@ export const FormPekerjaan = ({
                     placeholder="XYZ/VWS"
                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-1 focus:-outline-offset-1 focus:outline-cyan-600 sm:text-sm/6 placeholder:text-xs"
                     {...register("kode", { required: true })}
-                    defaultValue={df1}
                   />
                   {errors.kode && <Requireds />}
                 </div>
@@ -64,7 +75,23 @@ export const FormPekerjaan = ({
                     htmlFor="name"
                     className="absolute -top-3 left-2 inline-block rounded-lg bg-white px-1 text-xs  text-gray-900 sm:text-sm"
                   >
-                    Nomor
+                    Nomor Kontrak
+                  </label>
+                  <input
+                    id="name"
+                    type="text"
+                    placeholder="XYZ/VWS"
+                    className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-1 focus:-outline-offset-1 focus:outline-cyan-600 sm:text-sm/6 placeholder:text-xs"
+                    {...register("nomorKontrak", { required: true })}
+                  />
+                  {errors.nomorKontrak && <Requireds />}
+                </div>
+                <div className="relative">
+                  <label
+                    htmlFor="name"
+                    className="absolute -top-3 left-2 inline-block rounded-lg bg-white px-1 text-xs  text-gray-900 sm:text-sm"
+                  >
+                    Nomor Memo
                   </label>
                   <input
                     id="name"
@@ -72,20 +99,39 @@ export const FormPekerjaan = ({
                     placeholder="XYZ/VWS"
                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-1 focus:-outline-offset-1 focus:outline-cyan-600 sm:text-sm/6 placeholder:text-xs"
                     {...register("nomor", { required: true })}
-                    defaultValue={df2}
                   />
                   {errors.nomor && <Requireds />}
+                </div>
+                <div className="relative">
+                  <label className="absolute -top-3 left-2 rounded-lg bg-white px-1 text-xs text-gray-900 sm:text-sm z-50">
+                    Tanggal Kontrak
+                  </label>
+
+                  <Controller
+                    control={control}
+                    name="tanggalKontrak"
+                    rules={{ required: true }}
+                    render={({ field }) => (
+                      <DatePicker
+                        placeholderText="Select date"
+                        onChange={(date) => field.onChange(date)}
+                        selected={field.value}
+                        dateFormat="dd/MM/yyyy"
+                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-sky-600 sm:text-sm/6"
+                      />
+                    )}
+                  />
+                  {errors.tanggalKontrak && <Requireds />}
                 </div>
                 <div className="relative sm:col-span-2">
                   <label
                     htmlFor="name"
                     className="absolute -top-3 left-2 inline-block rounded-lg bg-white px-1 text-xs  text-gray-900 sm:text-sm"
                   >
-                    Cabang
+                    Cabang / Unit Kerja
                   </label>
                   <select
                     id="divisiID"
-                    defaultValue={df3}
                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-1 focus:-outline-offset-1 focus:outline-cyan-600 sm:text-sm/6 placeholder:text-xs"
                     {...register("cabangID", { required: true })}
                   >
@@ -109,7 +155,6 @@ export const FormPekerjaan = ({
                     placeholder="pemeliharaan cctv"
                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-1 focus:-outline-offset-1 focus:outline-cyan-600 sm:text-sm/6 placeholder:text-xs"
                     {...register("keterangan", { required: true })}
-                    defaultValue={df4}
                   />
                   {errors.keterangan && <Requireds />}
                 </div>
@@ -124,9 +169,9 @@ export const FormPekerjaan = ({
                     </label>
                     <select
                       id="location"
-                      defaultValue={df5}
                       className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-1 focus:-outline-offset-1 focus:outline-cyan-600 sm:text-sm/6 placeholder:text-xs"
                       {...register("status")}
+                      defaultValue={df7 ? true : false}
                     >
                       <option value={true}>Aktif</option>
                       <option value={false}>Tidak</option>

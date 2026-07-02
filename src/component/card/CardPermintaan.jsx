@@ -42,13 +42,16 @@ export const CardPermintaan = ({ data }) => {
             detail={data.detail}
             cabang={data.cabang["nama"]}
             judul={data.judul}
-            kode={data.pekerjaan["kode"]}
             nama={data.user["nama"]}
             nomor={`No : ${data.id}/${data.pekerjaan["nomor"]}/${romawi[moment(data.tanggal).format("M")]}/${moment(data.tanggal).format("Y")}`}
             pekerjaan={data.pekerjaan["keterangan"]}
             ruas={data.cabang["ruas"]}
             tanggal={moment(data.tanggal).format("DD/MM/Y")}
             ttd={data.user["ttd"]}
+            kontrak={data.pekerjaan["nomorKontrak"]}
+            tglKontrak={moment(data.pekerjaan["tanggalKontrak"]).format(
+              "DD/MM/Y",
+            )}
           />
         </>
       ) : (

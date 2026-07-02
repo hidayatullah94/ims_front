@@ -1,12 +1,14 @@
 import axios from "axios";
 
 export const URLS = axios.create({
-  baseURL: "https://ims.citrapersada.co.id",
+  baseURL: "https://inventory.citrapersada.co.id",
   // baseURL: "http://localhost:3500",
 });
+
 export const TokenS = sessionStorage.getItem("token");
 export const Roles = sessionStorage.getItem("roles");
-export const URLimg = "https://ims.citrapersada.co.id";
+// export const URLimg = "http://localhost:3500";
+export const URLimg = "https://inventory.citrapersada.co.id";
 
 export const HeaderJSON = {
   headers: {

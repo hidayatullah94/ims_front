@@ -111,7 +111,6 @@ export const Pekerjaan = () => {
 
   if (isLoading || loadKer) return <Loadings />;
   if (error || errKer) return <Eroors />;
-
   return (
     <div>
       {" "}
@@ -191,10 +190,12 @@ export const Pekerjaan = () => {
             }
             dsb={pendingUpdate}
             df1={PEKERJAAN && PEKERJAAN.kode}
-            df2={PEKERJAAN && PEKERJAAN.nomor}
-            df3={PEKERJAAN && PEKERJAAN.cabangID}
-            df4={PEKERJAAN && PEKERJAAN.keterangan}
-            df5={PEKERJAAN && PEKERJAAN.status}
+            df2={PEKERJAAN && PEKERJAAN.nomorKontrak}
+            df3={PEKERJAAN && PEKERJAAN.nomor}
+            df4={PEKERJAAN && PEKERJAAN.tanggalKontrak}
+            df5={PEKERJAAN && PEKERJAAN.cabangID}
+            df6={PEKERJAAN && PEKERJAAN.keterangan}
+            df7={PEKERJAAN && PEKERJAAN.status}
             isUpdate={true}
             title={"Update Barang"}
           />
@@ -208,11 +209,14 @@ export const Pekerjaan = () => {
                   <table className="relative min-w-full divide-y divide-gray-300">
                     <Theads
                       th1={"Kode"}
-                      th2={"nomor"}
-                      th3={"pekerjaan"}
-                      th4={"cabang"}
-                      th5={"status"}
-                      th6={"lokasi"}
+                      th2={"nomor Kontrak"}
+                      th3={"nomor memo"}
+                      th4={"tanggal Kontrak"}
+                      th5={"pekerjaan"}
+                      th6={"cabang"}
+                      th7={"status"}
+                      th8={"aksi"}
+                      size="md"
                     />
                     {data &&
                       data
@@ -230,10 +234,20 @@ export const Pekerjaan = () => {
                             <Tbodys
                               key={e.id}
                               tb1={e.kode}
-                              tb2={e.nomor}
-                              tb3={e.keterangan}
-                              tb4={e.cabang["nama"]}
-                              tb5={
+                              tb2={
+                                e.nomorKontrak === null ? "--" : e.nomorKontrak
+                              }
+                              tb3={e.nomor === null ? "--" : e.nomor}
+                              tb4={
+                                e.tanggalKontrak === null
+                                  ? "--"
+                                  : moment(e.tanggalKontrak).format(
+                                      "DD-MM-YYYY",
+                                    )
+                              }
+                              tb5={e.keterangan}
+                              tb6={e.cabang["nama"]}
+                              tb7={
                                 e.status ? (
                                   <span className="text-emerald-600 bg-emerald-100 px-3 font-semibold py-1 rounded">
                                     Aktif
@@ -244,7 +258,7 @@ export const Pekerjaan = () => {
                                   </span>
                                 )
                               }
-                              tb6={
+                              tb8={
                                 <>
                                   <button
                                     className="text-rose-700"
@@ -259,6 +273,7 @@ export const Pekerjaan = () => {
                                   </button>
                                 </>
                               }
+                              size="md"
                             />
                           );
                         })}

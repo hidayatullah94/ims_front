@@ -50,7 +50,7 @@ export const ListBarang = () => {
     },
     onError: (err) => {
       if (err.response.status === 400) {
-        toast.error("Barang sudah ada !");
+        toast.error("Barang / spesifikasi sudah ada  !");
       } else {
         toast.error("Sedang ada gangguan guys !");
       }
@@ -70,7 +70,9 @@ export const ListBarang = () => {
       }, 500);
     },
     onError: (err) => {
-      if (err.response.status === 500) {
+      if (err.response.status === 400) {
+        toast.error("Spesifikasi sudah ada  !");
+      } else {
         toast.error("Sedang ada gangguan guys !");
       }
     },
@@ -105,6 +107,7 @@ export const ListBarang = () => {
     formData.append("barcode", data.barcode);
     formData.append("satuan", data.satuan);
     formData.append("kategoriID", data.kategoriID);
+    formData.append("spesifikasi", JSON.stringify(data.spesifikasi));
     confirmAlert({
       title: "Konfirmasi kirim data ",
       message: "Apakah kamu yakin ingin mengirim data ?",
@@ -127,7 +130,7 @@ export const ListBarang = () => {
     formData.append("satuan", data.satuan);
     formData.append("kategoriID", data.kategoriID);
     formData.append("status", data.status);
-
+    formData.append("spesifikasi", JSON.stringify(data.spesifikasi));
     confirmAlert({
       title: "Update Data  !",
       message: "Apkah kamu yakin ingin mengupdate data ?",
@@ -172,6 +175,7 @@ export const ListBarang = () => {
       ],
     });
   };
+
   if (isLoading || loadBar) return <Loadings />;
   if (error || errBar) return <Eroors />;
   return (
@@ -188,7 +192,7 @@ export const ListBarang = () => {
               }
             />
           </div>
-          <CardDetailBarang id={detail.id} />
+          <CardDetailBarang id={detail.id} spesifikasi={BARANG && BARANG} />
         </>
       ) : (
         <div className="">
@@ -246,6 +250,7 @@ export const ListBarang = () => {
               df5={BARANG && BARANG.status}
               isUpdate={true}
               title={"Update Barang"}
+              spek={BARANG && BARANG.spesifikasi}
             />
           ) : null}
           {detail.pakai ? (
